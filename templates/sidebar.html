@@ -1,0 +1,30 @@
+<div class="btn btn-secondary d-block d-md-none rounded-0" onclick="toggle()" style="background-color:rgb(81, 103, 240)">
+    <i class="fa-solid fa-ellipsis"></i>
+</div>
+
+<div id="sidebar" class="h-100 d-none d-md-block side">
+    <ul class="list-unstyled">
+        <li class="border-bottom border-secondary p-2">
+            <a href=" {% url 'all_books' %}" class="text-decoration-none">All Books</a>
+        </li>
+        <li class="border-secondary p-2">
+            <a href="" class="text-decoration-none">Categories</a>
+        </li>
+        {% for category in categories %}
+            <ul class="list-unstyled ms-3">
+                <li class=" border-secondary p-2">
+                    <a href=" {% url 'book_category' category.id %}" class="text-decoration-none">{{category.category}}</a>
+                </li>
+            </ul>
+        {% endfor %}
+        </li>
+    </ul>
+</div>
+{% block extrajs %}
+<script>
+    function toggle()
+    {
+        document.getElementById("sidebar").classList.toggle("d-none")
+    }
+</script>
+{% endblock extrajs %}

@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block title %}
+|| Book <Details></Details>
+{% endblock title %}
+
+{% block content %}
+<div class="container">
+    {% if book %}
+    <div class="row">
+        <div class="col-md-6 p-2">
+            <img src="{{book.image.url}}" class="w-100" style="height: 620px" alt="">
+        </div>
+        <div class="col-md-6">
+            <h4 class="display-4">{{book.title}}</h4>
+            <p><i class="fa-solid fa-user"></i> Author :  {{book.author}}</p>
+    <p><i class="fa-solid fa-globe"> </i> Publisher :  {{book.publisher}}</p>
+    <p><i class="fa-solid fa-calendar"></i> Publication Year : {{book.publisher_year}}</p>
+    <p><strong>Price : <i class="fa-solid fa-indian-rupee-sign"></i> {{book.price}}</strong></p>
+    <p class="lead fs-6" style="text-align: justify;">{{book.description}}</p>
+
+
+    <div class="my-3">
+        {% if user.is_authenticated %}
+        <form action="{% url 'add_to_cart' %}" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="book_id" value={{book.id}}>
+            <div class="input-group mb-3">
+                <button type="button" class="btn btn-outline-secondary" onclick="decrement()">-</button>
+                <input type="text" name="quantity" id="quantity" value="1" readonly required>
+                <button type="button" class="btn btn-outline-secondary" onclick="increment()">+</button>
+            </div>
+            <input type="submit" name="" id="" value="Add to Cart" class="btn btn-outline-primary w-100">
+        </form>
+        {% else %}
+            <a href="{% url 'signin' %}"></a>
+        {% endif %}
+    </div>
+        </div>
+    </div>
+    
+    {% else %}
+    <h4 class="my-1 text-center text danger">No Such Book Found</h4>
+    {% endif %}
+
+</div>
+{% endblock content %}
+
+{% block extrajs %}
+<script>
+  let quantity = document.getElementById('quantity')
+  function decrement()
+  {
+    if(quantity.value > 1){
+      quantity.value = Number(quantity.value) - 1
+    }
+  }
+  function increment()
+  {
+      quantity.value = Number(quantity.value) + 1
+  }
+</script>
+
+
+{% endblock extrajs %}
